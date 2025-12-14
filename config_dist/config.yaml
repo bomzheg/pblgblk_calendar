@@ -1,0 +1,24 @@
+bot:
+  token: ""
+  log-chat: -1001234567890
+  superusers:
+    - 666
+  storage:
+    type: memory
+  bot-api:
+    # can be official (api.telegram.org)
+    type: official
+#    # or local (setup in docker-compose.yml)
+#    type: local
+#    botapi_url: "http://telegram-bot-api:8081"
+#    file_url: "http://nginx:80"
+db:
+  type: postgresql
+  connector: asyncpg
+  host: localhost
+  port: 5432
+  login: postgres
+  password: postgres
+  name: aiogram_template_bot
+redis:
+  url: localhost
