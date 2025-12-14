@@ -8,7 +8,7 @@ RUN $VIRTUAL_ENV/bin/pip install uv && $VIRTUAL_ENV/bin/uv pip install -r lock.t
 
 FROM python:3.13-slim-bookworm
 LABEL maintainer="bomzheg <bomzheg@gmail.com>" \
-      description="Telegram Bot"
+      description="pblgblk calendar Telegram Bot"
 ARG VCS_SHA
 ARG BUILD_AT
 ENV VIRTUAL_ENV=/opt/venv

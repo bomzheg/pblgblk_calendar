@@ -1,7 +1,7 @@
 [project]
-name = "template"
+name = "pblgblk_calendar"
 version = "1.0.0"
-description = "Bot template"
+description = "Bot pblgblk_calendar"
 authors = [
     {name = "Yuriy Chebyshev", email = "bomzheg@gmail.com"},
 ]
