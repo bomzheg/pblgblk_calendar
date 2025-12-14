@@ -5,6 +5,9 @@ from aiogram.fsm.storage.base import BaseEventIsolation, BaseStorage, DefaultKey
 from aiogram.fsm.storage.memory import MemoryStorage, SimpleEventIsolation
 from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.types import TelegramObject
+from aiogram_dialog import setup_dialogs
+from aiogram_dialog.api.protocols import MessageManagerProtocol
+from aiogram_dialog.manager.message_manager import MessageManager
 from dishka import (
     STRICT_VALIDATION,
     AsyncContainer,
@@ -69,6 +72,7 @@ class DpProvider(Provider):
         event_isolation: BaseEventIsolation,
         bot_config: BotConfig,
         storage: BaseStorage,
+        message_manager: MessageManagerProtocol,
     ) -> Dispatcher:
         dp = Dispatcher(
             storage=storage,
@@ -76,8 +80,10 @@ class DpProvider(Provider):
         )
         setup_dishka(container=dishka, router=dp)
         setup_handlers(dp, bot_config)
+        bg_manager = setup_dialogs(dp, message_manager=message_manager)
         setup_middlewares(
             dp=dp,
+            bg_manager=bg_manager,
         )
         logger.info("Configured bot routers \n%s", print_router_tree(dp))
         return dp
@@ -99,6 +105,10 @@ class DpProvider(Provider):
     @provide
     def get_event_isolation(self) -> BaseEventIsolation:
         return SimpleEventIsolation()
+
+    @provide
+    def get_manager(self) -> MessageManagerProtocol:
+        return MessageManager()
 
 
 class BotIdpProvider(Provider):
