@@ -42,10 +42,10 @@ class ViewCalendarDays(CalendarDaysView):
             "date": selected_date,
             "data": data,
         }
-        if selected_date == today:
-            text = self.today_text
-        elif selected_date in  data.get("forbidden", []):
+        if selected_date in  data.get("forbidden", []):
             text = FORBIDDEN_DATE
+        elif selected_date == today:
+            text = self.today_text
         else:
             text = self.date_text
         raw_date = int(mktime(selected_date.timetuple()))
