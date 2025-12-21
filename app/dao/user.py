@@ -36,3 +36,7 @@ class UserDAO(BaseDAO[User]):
             .returning(User)
         )
         return saved_user.scalar_one().to_dto()
+
+    async def get_users(self) -> list[users.User]:
+        all_users = await self._get_all()
+        return [u.to_dto() for u in all_users]

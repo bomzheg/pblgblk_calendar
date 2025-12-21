@@ -38,4 +38,4 @@ class ChatDAO(BaseDAO[db.Chat]):
     async def update_chat_id(self, chat: dto.Chat, new_id: int) -> None:
         chat_db = await self._get_by_tg_id(chat.tg_id)
         chat_db.tg_id = new_id
-        self.save(chat_db)
+        self._save(chat_db)

@@ -9,7 +9,7 @@ def setup() -> Router:
     router = Router(name=__name__)
     register_start_handler(
         Command(commands="view"),
-        state=states.ViewCalendar.view,
+        state=states.ViewCalendar.users,
         router=router,
     )
     register_start_handler(
