@@ -2,6 +2,7 @@ from aiogram import F, Router
 from aiogram.enums import ChatType
 
 from app.models.config import Config
+
 from . import base, planning
 
 

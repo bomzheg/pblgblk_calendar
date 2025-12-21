@@ -22,6 +22,6 @@ def setup(config: Config) -> Router:
         Command(commands=["main", "pblgblk"]),
         state=states.ViewCalendar.view,
         router=router,
-        data={"user_tg_id": config.primary_user_id}
+        data={"user_tg_id": config.primary_user_id},
     )
     return router

@@ -33,4 +33,3 @@ class User:
     @property
     def name_mention(self) -> str:
         return self.fullname or self.username or str(self.tg_id) or str(self.db_id) or "unknown"
-

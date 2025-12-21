@@ -2,7 +2,7 @@ from aiogram import Dispatcher, Router
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.fsm.state import State
 from aiogram.types import Message
-from aiogram_dialog import DialogManager, StartMode, Data
+from aiogram_dialog import Data, DialogManager, StartMode
 
 
 def print_router_tree(router: Router, indent: int = 0) -> str:

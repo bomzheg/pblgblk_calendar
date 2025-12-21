@@ -23,7 +23,6 @@ from app.core.identity import IdentityProvider
 from app.di import get_providers
 from app.di.db import create_redis
 from app.models.config import Config
-from app.models.config.main import BotConfig
 from app.models.config.storage import StorageConfig, StorageType
 from app.tgbot.handlers import setup_handlers
 from app.tgbot.middlewares import setup_middlewares

@@ -6,7 +6,7 @@ from app.tgbot import states
 from app.tgbot.dialogs.widgets import BusyCalendar
 
 from .getters import get_busy_days, get_users
-from .handlers import select_user, on_start_view
+from .handlers import on_start_view, select_user
 
 view_calendar = Dialog(
     Window(

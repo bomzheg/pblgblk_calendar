@@ -14,6 +14,7 @@ async def select_user(_: CallbackQuery, __: Any, manager: DialogManager, user_id
     data["user_id"] = int(user_id)
     await manager.switch_to(states.ViewCalendar.view)
 
+
 @inject
 async def on_start_view(
     data: dict[str, Any],

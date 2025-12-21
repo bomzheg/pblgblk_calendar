@@ -1,7 +1,8 @@
 from aiogram import Router
 
+from app.models.config import Config
+
 from . import edit_calendar, starters, view_calendar
-from ...models.config import Config
 
 
 def setup(config: Config) -> Router:
