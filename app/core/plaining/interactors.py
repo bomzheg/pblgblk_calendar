@@ -15,6 +15,7 @@ class FlipDayBusyInteractor:
         busy_date = await self.dao.get_busy_date(date_, await identity.get_required_user_id())
         busy_date.flip()
         await self.dao.save_busy_day(busy_date)
+        await self.dao.commit()
 
 
 @dataclass
