@@ -9,17 +9,17 @@ from dishka.integrations.aiogram_dialog import inject
 from app.core.identity import IdentityProvider
 from app.core.plaining.entity import DateRange
 from app.core.plaining.interactors import BusyDaysReaderInteractor
-from app.tgbot.dialogs.widgets import ViewCalendar
+from app.tgbot.dialogs.widgets import BusyCalendar
 
 
 @inject
-async def get_forbidden(
+async def get_busy_days(
     reader: FromDishka[BusyDaysReaderInteractor],
     identity: FromDishka[IdentityProvider],
     dialog_manager: DialogManager,
     **_,  # noqa: ANN003
 ) -> dict[str, Any]:
-    view_calendar: ManagedWidget[ViewCalendar] = dialog_manager.find("view_calendar")  # type: ignore[assignment]
+    view_calendar: ManagedWidget[BusyCalendar] = dialog_manager.find("view_calendar")  # type: ignore[assignment]
     current = view_calendar.widget.get_offset(dialog_manager)
     if current is None:
         current = datetime.datetime.now(tz=datetime.UTC).date()
@@ -28,4 +28,4 @@ async def get_forbidden(
         # TODO we want to show for selected user, not for everyone
         user_id=await identity.get_required_user_id(),
     )
-    return {"forbidden": [d.date for d in busy_days]}
+    return {"busy": [d.date for d in busy_days]}

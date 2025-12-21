@@ -14,7 +14,7 @@ from aiogram_dialog.widgets.kbd.calendar_kbd import (
 from aiogram_dialog.widgets.text import Const, Text
 
 
-class ViewCalendar(Calendar):
+class BusyCalendar(Calendar):
     def _init_views(self) -> dict[CalendarScope, CalendarScopeView]:
         """
         Calendar scopes view initializer.
@@ -24,16 +24,16 @@ class ViewCalendar(Calendar):
         create own implementation of views
         """
         return {
-            CalendarScope.DAYS: ViewCalendarDays(self._item_callback_data, self.config),
+            CalendarScope.DAYS: BusyCalendarDays(self._item_callback_data, self.config),
             CalendarScope.MONTHS: CalendarMonthView(self._item_callback_data, self.config),
             CalendarScope.YEARS: CalendarYearsView(self._item_callback_data, self.config),
         }
 
 
-FORBIDDEN_DATE: Text = Const("❌")
+BUSY_DATE: Text = Const("❌")
 
 
-class ViewCalendarDays(CalendarDaysView):
+class BusyCalendarDays(CalendarDaysView):
     async def _render_date_button(
         self,
         selected_date: date,
@@ -45,8 +45,8 @@ class ViewCalendarDays(CalendarDaysView):
             "date": selected_date,
             "data": data,
         }
-        if selected_date in data.get("forbidden", []):
-            text = FORBIDDEN_DATE
+        if selected_date in data.get("busy", []):
+            text = BUSY_DATE
         elif selected_date == today:
             text = self.today_text
         else:
