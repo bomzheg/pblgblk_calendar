@@ -1,12 +1,12 @@
 from aiogram_dialog import Dialog, Window
-from aiogram_dialog.widgets.kbd import ScrollingGroup, Select, SwitchTo
+from aiogram_dialog.widgets.kbd import Button, ScrollingGroup, Select, SwitchTo
 from aiogram_dialog.widgets.text import Jinja
 
 from app.tgbot import states
 from app.tgbot.dialogs.widgets import BusyCalendar
 
 from .getters import get_busy_days, get_users
-from .handlers import on_start_view, select_user
+from .handlers import on_start_view, paint_cal, select_user
 
 view_calendar = Dialog(
     Window(
@@ -29,6 +29,11 @@ view_calendar = Dialog(
     Window(
         Jinja("Календарь ниже"),
         BusyCalendar(id="view_calendar"),
+        Button(
+            Jinja("Получить картинкой"),
+            id="paint_it",
+            on_click=paint_cal,
+        ),
         SwitchTo(
             Jinja("⬅️Назад"),
             id="to_users",

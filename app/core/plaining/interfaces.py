@@ -1,4 +1,5 @@
 from datetime import date
+from io import BytesIO
 from typing import Protocol
 
 from app.core import users
@@ -25,3 +26,8 @@ class BusyDayWriter(Commiter, Protocol):
 
 class BusyDayDao(BusyDayReader, BusyDayWriter):
     pass
+
+
+class CalendarPainter(Protocol):
+    def paint(self, year: int, month: int, dates: list[date]) -> BytesIO:
+        raise NotImplementedError

@@ -1,10 +1,11 @@
 from dataclasses import dataclass
 from datetime import date
+from io import BytesIO
 
 from app.core import users
 from app.core.identity import IdentityProvider
 from app.core.plaining import entity
-from app.core.plaining.interfaces import BusyDayDao, BusyDaysReader
+from app.core.plaining.interfaces import BusyDayDao, BusyDaysReader, CalendarPainter
 
 
 @dataclass
@@ -28,4 +29,18 @@ class BusyDaysReaderInteractor:
         return await self.dao.get_only_busy_date(
             date_range=date_range,
             user_id=user_id,
+        )
+
+
+@dataclass
+class CalendarPainterInteractor:
+    dao: BusyDaysReader
+    painter: CalendarPainter
+
+    async def __call__(self, date_range: entity.DateRange, user_id: users.UserId) -> BytesIO:
+        busy_days = await self.dao.get_only_busy_date(date_range=date_range, user_id=user_id)
+        return self.painter.paint(
+            year=date_range.start.year,
+            month=date_range.start.month,
+            dates=[d.date for d in busy_days],
         )
