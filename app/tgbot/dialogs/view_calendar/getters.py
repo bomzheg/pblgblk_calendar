@@ -25,6 +25,7 @@ async def get_forbidden(
         current = datetime.datetime.now(tz=datetime.UTC).date()
     busy_days = await reader(
         date_range=DateRange.create_month(current),
-        identity=identity,
+        # TODO we want to show for selected user, not for everyone
+        user_id=await identity.get_required_user_id(),
     )
     return {"forbidden": [d.date for d in busy_days]}
