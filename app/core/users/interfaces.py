@@ -12,3 +12,7 @@ class UsersReader(Protocol):
 class UsersUpserter(Commiter, Protocol):
     async def upsert_user(self, user: entity.CreateUserData) -> entity.User:
         raise NotImplementedError
+
+class UserFinder(Protocol):
+    async def get_by_tg_id(self, tg_id: int) -> entity.User:
+        raise NotImplementedError

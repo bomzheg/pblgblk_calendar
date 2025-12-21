@@ -70,7 +70,7 @@ class DpProvider(Provider):
         self,
         dishka: AsyncContainer,
         event_isolation: BaseEventIsolation,
-        bot_config: BotConfig,
+        config: Config,
         storage: BaseStorage,
         message_manager: MessageManagerProtocol,
     ) -> Dispatcher:
@@ -79,7 +79,7 @@ class DpProvider(Provider):
             events_isolation=event_isolation,
         )
         setup_dishka(container=dishka, router=dp)
-        setup_handlers(dp, bot_config)
+        setup_handlers(dp, config)
         bg_manager = setup_dialogs(dp, message_manager=message_manager)
         setup_middlewares(
             dp=dp,

@@ -14,6 +14,7 @@ class Config:
     db: DBConfig
     redis: RedisConfig
     bot: BotConfig
+    primary_user_id: int
 
     @property
     def app_dir(self) -> Path:
@@ -33,6 +34,7 @@ class _Config:
     db: DBConfigProperties
     redis: RedisConfig
     bot: BotConfig
+    primary_user_id: int
 
 
 @dataclass(kw_only=True, frozen=True, slots=True)

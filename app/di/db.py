@@ -52,6 +52,7 @@ class DAOProvider(Provider):
             dao.UserDAO,
             users.UsersUpserter,
             users.UsersReader,
+            users.UserFinder,
         ]
     )
     async def get_user_dao(self, holder: HolderDao) -> dao.UserDAO:

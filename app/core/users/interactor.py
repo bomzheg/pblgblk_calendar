@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from app.core.users import entity
-from app.core.users.interfaces import UsersReader, UsersUpserter
+from app.core.users.interfaces import UsersReader, UsersUpserter, UserFinder
 
 
 @dataclass
@@ -16,3 +16,10 @@ async def upsert_user(user: entity.CreateUserData, user_dao: UsersUpserter) -> e
     saved_user = await user_dao.upsert_user(user)
     await user_dao.commit()
     return saved_user
+
+@dataclass
+class UserByTgIdFinder:
+    dao: UserFinder
+    async def __call__(self, tg_id: int) -> entity.User:
+        return await self.dao.get_by_tg_id(tg_id)
+

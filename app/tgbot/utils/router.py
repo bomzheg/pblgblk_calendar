@@ -2,7 +2,7 @@ from aiogram import Dispatcher, Router
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.fsm.state import State
 from aiogram.types import Message
-from aiogram_dialog import DialogManager, StartMode
+from aiogram_dialog import DialogManager, StartMode, Data
 
 
 def print_router_tree(router: Router, indent: int = 0) -> str:
@@ -20,12 +20,13 @@ def register_start_handler(
     state: State,
     router: Router,
     mode: StartMode = StartMode.NORMAL,
+    data: Data = None,
 ) -> None:
     async def start_dialog(
         _: Message,
         dialog_manager: DialogManager,
     ) -> None:
-        await dialog_manager.start(state, mode=mode)
+        await dialog_manager.start(state, mode=mode, data=data)
 
     router.message.register(
         start_dialog,
