@@ -1,12 +1,13 @@
 from aiogram.types import User
 
-from app.models import db, dto
+from app.core import users
+from app.models import db
 
 ID = 666
 FIRST_NAME = "Harry"
 LAST_NAME = "Potter"
 USERNAME = "voldemort_killer"
-DB_ID: dto.UserId = 13
+DB_ID: users.UserId = 13
 
 
 def create_tg_user(
@@ -24,8 +25,8 @@ def create_tg_user(
     )
 
 
-def create_dto_user() -> dto.User:
-    return dto.User(
+def create_dto_user() -> users.User:
+    return users.User(
         tg_id=ID,
         db_id=DB_ID,
         first_name=FIRST_NAME,
@@ -35,8 +36,8 @@ def create_dto_user() -> dto.User:
     )
 
 
-def create_create_user_dto() -> dto.CreateUserData:
-    return dto.CreateUserData(
+def create_create_user_dto() -> users.CreateUserData:
+    return users.CreateUserData(
         tg_id=ID,
         first_name=FIRST_NAME,
         last_name=LAST_NAME,

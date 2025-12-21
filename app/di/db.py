@@ -47,11 +47,13 @@ class DAOProvider(Provider):
     async def get_dao(self, session: AsyncSession) -> HolderDao:
         return HolderDao(session=session)
 
-    @provide(provides=AnyOf[
-        dao.UserDAO,
-        users.UsersUpserter,
-        users.UsersReader,
-    ])
+    @provide(
+        provides=AnyOf[
+            dao.UserDAO,
+            users.UsersUpserter,
+            users.UsersReader,
+        ]
+    )
     async def get_user_dao(self, holder: HolderDao) -> dao.UserDAO:
         return holder.user
 

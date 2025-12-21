@@ -6,6 +6,7 @@ from aiogram.client import context_controller
 from aiogram.types import chat, user
 
 from app import enums
+from app.core import users
 from app.models import dto
 
 exec_type_checking(user)
@@ -14,9 +15,9 @@ exec_type_checking(context_controller)
 
 user_tg_to_dto = get_converter(
     src=types.User,
-    dst=dto.CreateUserData,
+    dst=users.CreateUserData,
     recipe=[
-        link_function(lambda user_: user_.id, P[dto.CreateUserData].tg_id),
+        link_function(lambda user_: user_.id, P[users.CreateUserData].tg_id),
     ],
 )
 chat_tg_to_dto = get_converter(

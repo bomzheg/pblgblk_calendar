@@ -3,8 +3,8 @@ from datetime import date
 from sqlalchemy import BigInteger, Date, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
+from app.core import users
 from app.core.plaining import entity
-from app.models import dto
 from app.models.db.base import Base
 
 
@@ -14,7 +14,7 @@ class BusyDay(Base):
     __table_args__ = (UniqueConstraint("user_id", "date_", name="busy_date_uc"),)
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     busy: Mapped[bool] = mapped_column(default=False, nullable=False)
-    user_id: Mapped[dto.UserId] = mapped_column(ForeignKey("users.id"), nullable=False)
+    user_id: Mapped[users.UserId] = mapped_column(ForeignKey("users.id"), nullable=False)
     date_: Mapped[date] = mapped_column(Date, nullable=False)
 
     def __repr__(self) -> str:

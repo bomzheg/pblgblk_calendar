@@ -1,3 +1,3 @@
-from .entity import User, UserId, CreateUserData
+from .entity import CreateUserData, User, UserId
 from .interactor import upsert_user
-from .interfaces import UsersUpserter, UsersReader
+from .interfaces import UsersReader, UsersUpserter

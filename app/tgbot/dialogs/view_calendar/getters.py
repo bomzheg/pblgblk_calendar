@@ -6,7 +6,6 @@ from aiogram_dialog.widgets.common import ManagedWidget
 from dishka import FromDishka
 from dishka.integrations.aiogram_dialog import inject
 
-from app.core.identity import IdentityProvider
 from app.core.plaining.entity import DateRange
 from app.core.plaining.interactors import BusyDaysReaderInteractor
 from app.core.users.interactor import GetUsersInteractor
@@ -16,7 +15,6 @@ from app.tgbot.dialogs.widgets import BusyCalendar
 @inject
 async def get_busy_days(
     reader: FromDishka[BusyDaysReaderInteractor],
-    identity: FromDishka[IdentityProvider],
     dialog_manager: DialogManager,
     **_,  # noqa: ANN003
 ) -> dict[str, Any]:
@@ -35,7 +33,5 @@ async def get_busy_days(
 async def get_users(
     interactor: FromDishka[GetUsersInteractor],
     **_,  # noqa: ANN003
-):
-    return {
-        "users": await interactor()
-    }
+) -> dict[str, Any]:
+    return {"users": await interactor()}

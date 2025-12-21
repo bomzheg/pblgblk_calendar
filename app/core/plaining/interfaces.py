@@ -22,5 +22,6 @@ class BusyDayWriter(Commiter, Protocol):
     async def save_busy_day(self, busy_day: entity.BusyDay) -> None:
         raise NotImplementedError
 
+
 class BusyDayDao(BusyDayReader, BusyDayWriter):
     pass

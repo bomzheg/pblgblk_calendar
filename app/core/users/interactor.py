@@ -12,7 +12,6 @@ class GetUsersInteractor:
         return await self.dao.get_users()
 
 
-
 async def upsert_user(user: entity.CreateUserData, user_dao: UsersUpserter) -> entity.User:
     saved_user = await user_dao.upsert_user(user)
     await user_dao.commit()

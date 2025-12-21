@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from datetime import date
 
+from app.core import users
 from app.core.identity import IdentityProvider
 from app.core.plaining import entity
 from app.core.plaining.interfaces import BusyDayDao, BusyDaysReader
-from app.models import dto
 
 
 @dataclass
@@ -22,7 +22,7 @@ class BusyDaysReaderInteractor:
     dao: BusyDaysReader
 
     async def __call__(
-        self, date_range: entity.DateRange, user_id: dto.UserId
+        self, date_range: entity.DateRange, user_id: users.UserId
     ) -> list[entity.BusyDay]:
         return await self.dao.get_only_busy_date(
             date_range=date_range,

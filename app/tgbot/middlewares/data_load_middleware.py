@@ -16,7 +16,7 @@ class LoadDataMiddleware(BaseMiddleware):
         handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
         event: TelegramObject,
         data: dict[str, Any],
-    ) -> Any:  # noqa: ANN401
+    ) -> Any:
         dishka = data["dishka_container"]
         identity_provider = await dishka.get(TgBotIdentityProvider)
 

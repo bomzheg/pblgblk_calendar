@@ -1,7 +1,7 @@
-from app.models import dto
+from app.core import users
 
 
-def assert_user(expected: dto.User, actual: dto.User) -> None:
+def assert_user(expected: users.User, actual: users.User) -> None:
     assert expected.tg_id == actual.tg_id
     assert expected.username == actual.username
     assert expected.first_name == actual.first_name

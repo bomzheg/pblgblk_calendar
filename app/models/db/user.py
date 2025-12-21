@@ -1,7 +1,7 @@
 from sqlalchemy import BigInteger
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.models import dto
+from app.core import users
 from app.models.db.base import Base
 
 
@@ -21,8 +21,8 @@ class User(Base):
             rez += f"username=@{self.username}"
         return rez + ">"
 
-    def to_dto(self) -> dto.User:
-        return dto.User(
+    def to_dto(self) -> users.User:
+        return users.User(
             db_id=self.id,
             tg_id=self.tg_id,
             first_name=self.first_name,

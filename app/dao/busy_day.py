@@ -4,17 +4,17 @@ from sqlalchemy import select, update
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core import users
 from app.core.plaining import entity
 from app.dao.base import BaseDAO
 from app.models.db.busy_day import BusyDay
-from app.models.dto import UserId
 
 
 class BusyDayDAO(BaseDAO[BusyDay]):
     def __init__(self, session: AsyncSession) -> None:
         super().__init__(BusyDay, session)
 
-    async def get_busy_date(self, date_: date, user_id: UserId) -> entity.BusyDay:
+    async def get_busy_date(self, date_: date, user_id: users.UserId) -> entity.BusyDay:
         kwargs = {
             "user_id": user_id,
             "date_": date_,
@@ -37,7 +37,7 @@ class BusyDayDAO(BaseDAO[BusyDay]):
         )
 
     async def get_only_busy_date(
-        self, date_range: entity.DateRange, user_id: UserId
+        self, date_range: entity.DateRange, user_id: users.UserId
     ) -> list[entity.BusyDay]:
         saved = await self.session.execute(
             select(BusyDay).where(

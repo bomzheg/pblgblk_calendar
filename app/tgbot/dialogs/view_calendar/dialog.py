@@ -1,7 +1,6 @@
-from aiogram import F
 from aiogram_dialog import Dialog, Window
 from aiogram_dialog.widgets.kbd import ScrollingGroup, Select
-from aiogram_dialog.widgets.text import Jinja, Multi, Const
+from aiogram_dialog.widgets.text import Jinja
 
 from app.tgbot import states
 from app.tgbot.dialogs.widgets import BusyCalendar
@@ -32,5 +31,5 @@ view_calendar = Dialog(
         BusyCalendar(id="view_calendar"),
         state=states.ViewCalendar.view,
         getter=get_busy_days,
-    )
+    ),
 )

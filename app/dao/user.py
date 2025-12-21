@@ -2,8 +2,8 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
+from app.core import users
 from app.dao.base import BaseDAO
-from app.models import dto
 from app.models.db import User
 
 
@@ -11,7 +11,7 @@ class UserDAO(BaseDAO[User]):
     def __init__(self, session: AsyncSession) -> None:
         super().__init__(User, session)
 
-    async def get_by_tg_id(self, tg_id: int) -> dto.User:
+    async def get_by_tg_id(self, tg_id: int) -> users.User:
         tg_user = await self._get_by_tg_id(tg_id)
         return tg_user.to_dto()
 
@@ -19,7 +19,7 @@ class UserDAO(BaseDAO[User]):
         result = await self.session.execute(select(User).where(User.tg_id == tg_id))
         return result.scalar_one()
 
-    async def upsert_user(self, user: dto.CreateUserData) -> dto.User:
+    async def upsert_user(self, user: users.CreateUserData) -> users.User:
         kwargs = {
             "tg_id": user.tg_id,
             "first_name": user.first_name,

@@ -5,8 +5,8 @@ from aiogram.types import TelegramObject
 from aiogram_dialog.api.entities import DialogUpdate
 from dishka.integrations.aiogram import AiogramMiddlewareData
 
-from app.core.identity import IdentityProvider
 from app.core import users
+from app.core.identity import IdentityProvider
 from app.dao.holder import HolderDao
 from app.models import dto
 from app.tgbot.services.chat import upsert_chat

@@ -102,6 +102,7 @@ select = ["ALL"]
 ignore = [
     "D",  # docstrings
     "ANN101", "ANN102",  # annotations for self and cls
+    "ANN401",  # disallow Any
     "EM101",  # forbidden exceptions with string literals
     "RET505",  # it prevents if return else return
     "TRY003",  # forbidden long text messages for create exceptions
