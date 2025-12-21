@@ -15,7 +15,7 @@ class BusyDay:
 
     @property
     def date(self) -> datetime.date:
-        return self.date
+        return self._date
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)

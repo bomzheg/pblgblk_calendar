@@ -1,6 +1,6 @@
 from datetime import date
 
-from sqlalchemy import update
+from sqlalchemy import select, update
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -35,3 +35,16 @@ class BusyDayDAO(BaseDAO[BusyDay]):
         await self.session.execute(
             update(BusyDay).where(BusyDay.id == busy_day.id).values(busy=busy_day.is_busy)
         )
+
+    async def get_only_busy_date(
+        self, date_range: entity.DateRange, user_id: UserId
+    ) -> list[entity.BusyDay]:
+        saved = await self.session.execute(
+            select(BusyDay).where(
+                BusyDay.user_id == user_id,
+                BusyDay.date_ >= date_range.start,
+                BusyDay.date_ <= date_range.end,
+                BusyDay.busy == True,  #  noqa: E712
+            )
+        )
+        return [s.to_dto() for s in saved.scalars()]

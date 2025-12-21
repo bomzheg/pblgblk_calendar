@@ -3,7 +3,7 @@ from dishka import Provider
 from app.di.bot import BotProvider
 from app.di.config import ConfigProvider, DbConfigProvider
 from app.di.db import DAOProvider, DbProvider, RedisProvider
-from app.models.config.main import Paths
+from app.di.planning import PlanningProvider
 
 
 def get_providers() -> list[Provider]:
@@ -14,4 +14,5 @@ def get_providers() -> list[Provider]:
         DAOProvider(),
         RedisProvider(),
         BotProvider(),
+        PlanningProvider(),
     ]
