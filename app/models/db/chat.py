@@ -12,7 +12,7 @@ class Chat(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     tg_id: Mapped[int] = mapped_column(BigInteger, unique=True)
     type: Mapped[ChatType] = mapped_column(Enum(ChatType))
-    title: Mapped[str]
+    title: Mapped[str | None]
     username: Mapped[str | None]
 
     def __repr__(self) -> str:
