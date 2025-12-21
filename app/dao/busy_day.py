@@ -17,7 +17,7 @@ class BusyDayDAO(BaseDAO[BusyDay]):
     async def get_busy_date(self, date_: date, user_id: UserId) -> entity.BusyDay:
         kwargs = {
             "user_id": user_id,
-            "date": date_,
+            "date_": date_,
         }
         saved = await self.session.execute(
             insert(BusyDay)

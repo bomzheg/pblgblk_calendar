@@ -2,8 +2,9 @@ from aiogram_dialog import Dialog, Window
 from aiogram_dialog.widgets.text import Jinja
 
 from app.tgbot import states
-from app.tgbot.dialogs.view_calendar.getters import get_busy_days
 from app.tgbot.dialogs.widgets import BusyCalendar
+
+from .getters import get_busy_days
 
 view_calendar = Dialog(
     Window(

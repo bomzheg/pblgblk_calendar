@@ -12,4 +12,9 @@ def setup() -> Router:
         state=states.ViewCalendar.view,
         router=router,
     )
+    register_start_handler(
+        Command(commands="edit"),
+        state=states.EditCalendar.edit,
+        router=router,
+    )
     return router
