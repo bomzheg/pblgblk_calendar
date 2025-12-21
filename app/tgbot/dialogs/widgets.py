@@ -5,9 +5,13 @@ from typing import Any
 from aiogram.types import InlineKeyboardButton
 from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.kbd import Calendar, CalendarScope
-from aiogram_dialog.widgets.kbd.calendar_kbd import CalendarScopeView, CalendarDaysView, CalendarMonthView, \
-    CalendarYearsView
-from aiogram_dialog.widgets.text import Text, Format, Const
+from aiogram_dialog.widgets.kbd.calendar_kbd import (
+    CalendarDaysView,
+    CalendarMonthView,
+    CalendarScopeView,
+    CalendarYearsView,
+)
+from aiogram_dialog.widgets.text import Const, Text
 
 
 class ViewCalendar(Calendar):
@@ -20,15 +24,14 @@ class ViewCalendar(Calendar):
         create own implementation of views
         """
         return {
-            CalendarScope.DAYS:
-                ViewCalendarDays(self._item_callback_data, self.config),
-            CalendarScope.MONTHS:
-                CalendarMonthView(self._item_callback_data, self.config),
-            CalendarScope.YEARS:
-                CalendarYearsView(self._item_callback_data, self.config),
+            CalendarScope.DAYS: ViewCalendarDays(self._item_callback_data, self.config),
+            CalendarScope.MONTHS: CalendarMonthView(self._item_callback_data, self.config),
+            CalendarScope.YEARS: CalendarYearsView(self._item_callback_data, self.config),
         }
 
-FORBIDDEN_DATE = Const("❌")
+
+FORBIDDEN_DATE: Text = Const("❌")
+
 
 class ViewCalendarDays(CalendarDaysView):
     async def _render_date_button(
@@ -42,7 +45,7 @@ class ViewCalendarDays(CalendarDaysView):
             "date": selected_date,
             "data": data,
         }
-        if selected_date in  data.get("forbidden", []):
+        if selected_date in data.get("forbidden", []):
             text = FORBIDDEN_DATE
         elif selected_date == today:
             text = self.today_text
@@ -51,7 +54,8 @@ class ViewCalendarDays(CalendarDaysView):
         raw_date = int(mktime(selected_date.timetuple()))
         return InlineKeyboardButton(
             text=await text.render_text(
-                current_data, manager,
+                current_data,
+                manager,
             ),
             callback_data=self.callback_generator(str(raw_date)),
         )

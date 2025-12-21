@@ -1,7 +1,7 @@
-from aiogram import Router, F
+from aiogram import F, Router
 from aiogram.enums import ChatType
 
-from . import view, base
+from . import base, view
 
 
 def setup() -> Router:

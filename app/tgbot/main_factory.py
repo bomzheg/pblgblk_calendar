@@ -66,7 +66,7 @@ class DpProvider(Provider):
     scope = Scope.APP
 
     @provide
-    def create_dispatcher(
+    def create_dispatcher(  # noqa: PLR0913
         self,
         dishka: AsyncContainer,
         event_isolation: BaseEventIsolation,

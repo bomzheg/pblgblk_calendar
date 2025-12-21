@@ -1,6 +1,6 @@
 from aiogram import Router
 
-from . import view_calendar, starters
+from . import starters, view_calendar
 
 
 def setup() -> Router:

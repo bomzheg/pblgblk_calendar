@@ -6,11 +6,10 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram_dialog import DialogManager
 
-
 logger = logging.getLogger(__name__)
 
 
-async def cancel_state(message: Message, state: FSMContext, dialog_manager: DialogManager):
+async def cancel_state(message: Message, state: FSMContext, dialog_manager: DialogManager) -> None:
     await dialog_manager.reset_stack(remove_keyboard=True)
     current_state = await state.get_state()
     if current_state is None:

@@ -6,6 +6,7 @@ ID = 666
 FIRST_NAME = "Harry"
 LAST_NAME = "Potter"
 USERNAME = "voldemort_killer"
+DB_ID: dto.UserId = 13
 
 
 def create_tg_user(
@@ -26,6 +27,17 @@ def create_tg_user(
 def create_dto_user() -> dto.User:
     return dto.User(
         tg_id=ID,
+        db_id=DB_ID,
+        first_name=FIRST_NAME,
+        last_name=LAST_NAME,
+        username=USERNAME,
+        is_bot=False,
+    )
+
+
+def create_create_user_dto() -> dto.CreateUserData:
+    return dto.CreateUserData(
+        tg_id=ID,
         first_name=FIRST_NAME,
         last_name=LAST_NAME,
         username=USERNAME,
@@ -35,6 +47,7 @@ def create_dto_user() -> dto.User:
 
 def create_db_user() -> db.User:
     return db.User(
+        db_id=DB_ID,
         tg_id=ID,
         first_name=FIRST_NAME,
         last_name=LAST_NAME,

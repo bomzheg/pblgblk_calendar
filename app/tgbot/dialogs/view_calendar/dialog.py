@@ -1,6 +1,4 @@
-
 from aiogram_dialog import Dialog, Window
-from aiogram_dialog.widgets.kbd import Calendar
 from aiogram_dialog.widgets.text import Jinja
 
 from app.tgbot import states
@@ -12,6 +10,6 @@ view_calendar = Dialog(
         Jinja("Календарь ниже"),
         ViewCalendar(id="view_calendar"),
         state=states.ViewCalendar.view,
-        getter=get_forbidden
+        getter=get_forbidden,
     )
 )

@@ -19,7 +19,7 @@ class UserDAO(BaseDAO[User]):
         result = await self.session.execute(select(User).where(User.tg_id == tg_id))
         return result.scalar_one()
 
-    async def upsert_user(self, user: dto.User) -> dto.User:
+    async def upsert_user(self, user: dto.CreateUserData) -> dto.User:
         kwargs = {
             "tg_id": user.tg_id,
             "first_name": user.first_name,

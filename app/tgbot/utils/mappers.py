@@ -14,10 +14,9 @@ exec_type_checking(context_controller)
 
 user_tg_to_dto = get_converter(
     src=types.User,
-    dst=dto.User,
+    dst=dto.CreateUserData,
     recipe=[
-        link_function(lambda _: None, P[dto.User].db_id),
-        link_function(lambda user_: user_.id, P[dto.User].tg_id),
+        link_function(lambda user_: user_.id, P[dto.CreateUserData].tg_id),
     ],
 )
 chat_tg_to_dto = get_converter(

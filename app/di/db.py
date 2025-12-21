@@ -1,7 +1,7 @@
 import logging
 from typing import AsyncIterable
 
-from dishka import Provider, Scope, provide
+from dishka import AnyOf, Provider, Scope, provide
 from redis.asyncio.client import Redis
 from sqlalchemy import make_url
 from sqlalchemy.ext.asyncio import (
@@ -12,6 +12,7 @@ from sqlalchemy.ext.asyncio import (
 )
 
 from app import dao
+from app.core import plaining
 from app.dao.holder import HolderDao
 from app.models.config.db import DBConfig, RedisConfig
 
@@ -53,6 +54,18 @@ class DAOProvider(Provider):
     @provide
     def get_chat_dao(self, holder: HolderDao) -> dao.ChatDAO:
         return holder.chat
+
+    @provide(
+        provides=AnyOf[
+            dao.BusyDayDAO,
+            plaining.interfaces.BusyDayReader,
+            plaining.interfaces.BusyDayWriter,
+            plaining.interfaces.BusyDaysReader,
+            plaining.interfaces.BusyDayDao,
+        ]
+    )
+    def get_busy_day_dao(self, holder: HolderDao) -> dao.BusyDayDAO:
+        return holder.busy_day
 
 
 class RedisProvider(Provider):
