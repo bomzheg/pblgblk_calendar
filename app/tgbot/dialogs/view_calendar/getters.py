@@ -9,6 +9,7 @@ from dishka.integrations.aiogram_dialog import inject
 from app.core.identity import IdentityProvider
 from app.core.plaining.entity import DateRange
 from app.core.plaining.interactors import BusyDaysReaderInteractor
+from app.core.users.interactor import GetUsersInteractor
 from app.tgbot.dialogs.widgets import BusyCalendar
 
 
@@ -25,7 +26,16 @@ async def get_busy_days(
         current = datetime.datetime.now(tz=datetime.UTC).date()
     busy_days = await reader(
         date_range=DateRange.create_month(current),
-        # TODO we want to show for selected user, not for everyone
-        user_id=await identity.get_required_user_id(),
+        user_id=dialog_manager.dialog_data["user_id"],
     )
     return {"busy": [d.date for d in busy_days]}
+
+
+@inject
+async def get_users(
+    interactor: FromDishka[GetUsersInteractor],
+    **_,  # noqa: ANN003
+):
+    return {
+        "users": await interactor()
+    }

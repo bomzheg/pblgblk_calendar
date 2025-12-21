@@ -6,15 +6,15 @@ from aiogram_dialog.api.entities import DialogUpdate
 from dishka.integrations.aiogram import AiogramMiddlewareData
 
 from app.core.identity import IdentityProvider
+from app.core import users
 from app.dao.holder import HolderDao
 from app.models import dto
 from app.tgbot.services.chat import upsert_chat
-from app.tgbot.services.user import upsert_user
 from app.tgbot.utils.mappers import chat_tg_to_dto, user_tg_to_dto
 
 
 class LoadedData(TypedDict, total=False):
-    user: dto.User | None
+    user: users.User | None
     chat: dto.Chat | None
 
 
@@ -31,7 +31,7 @@ class TgBotIdentityProvider(IdentityProvider):
         self.aiogram_data = aiogram_data
         self.cache = LoadedData()
 
-    async def get_user(self) -> dto.User | None:
+    async def get_user(self) -> users.User | None:
         if "user" in self.cache:
             return self.cache["user"]
         if isinstance(self.event, DialogUpdate):
@@ -60,11 +60,11 @@ class TgBotIdentityProvider(IdentityProvider):
         return chat
 
 
-async def save_user(data: dict[str, Any], holder_dao: HolderDao) -> dto.User | None:
+async def save_user(data: dict[str, Any], holder_dao: HolderDao) -> users.User | None:
     user = data.get("event_from_user")
     if not user:
         return None
-    return await upsert_user(user_tg_to_dto(user), holder_dao.user)
+    return await users.upsert_user(user_tg_to_dto(user), holder_dao.user)
 
 
 async def save_chat(data: dict[str, Any], holder_dao: HolderDao) -> dto.Chat | None:

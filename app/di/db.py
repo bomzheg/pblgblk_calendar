@@ -12,7 +12,7 @@ from sqlalchemy.ext.asyncio import (
 )
 
 from app import dao
-from app.core import plaining
+from app.core import plaining, users
 from app.dao.holder import HolderDao
 from app.models.config.db import DBConfig, RedisConfig
 
@@ -47,7 +47,11 @@ class DAOProvider(Provider):
     async def get_dao(self, session: AsyncSession) -> HolderDao:
         return HolderDao(session=session)
 
-    @provide
+    @provide(provides=AnyOf[
+        dao.UserDAO,
+        users.UsersUpserter,
+        users.UsersReader,
+    ])
     async def get_user_dao(self, holder: HolderDao) -> dao.UserDAO:
         return holder.user
 
@@ -58,10 +62,10 @@ class DAOProvider(Provider):
     @provide(
         provides=AnyOf[
             dao.BusyDayDAO,
-            plaining.interfaces.BusyDayReader,
-            plaining.interfaces.BusyDayWriter,
-            plaining.interfaces.BusyDaysReader,
-            plaining.interfaces.BusyDayDao,
+            plaining.BusyDayReader,
+            plaining.BusyDayWriter,
+            plaining.BusyDaysReader,
+            plaining.BusyDayDao,
         ]
     )
     def get_busy_day_dao(self, holder: HolderDao) -> dao.BusyDayDAO:
