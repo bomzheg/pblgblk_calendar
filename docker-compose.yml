@@ -5,20 +5,40 @@ services:
   pblgblk_calendar:
     container_name: pblgblk_calendar
     restart: always
-    image: bomzheg/pblgblk_calendar
+    image: "bomzheg/pblgblk_calendar:${APP_VERSION:-latest}"
     volumes:
       - type: "bind"
         source: "./config"
-        target: "/config"
+        target: "/code/app/config"
     env_file: config/.env
-    entrypoint: [ "python3", "-m", "app"]
+    entrypoint: [ "python3", "-m", "app.tgbot"]
     networks:
       - reverse-proxy
       - botapi
     extra_hosts:
       - "host.docker.internal:host-gateway"
+      -
+  migrations:
+    profiles:
+      - "migrate"
+    restart: "no"
+    image: "bomzheg/pblgblk_calendar:${APP_VERSION:-latest}"
+    volumes:
+      - type: "bind"
+        source: "./config/"
+        target: "/code/app/config/"
+        read_only: true
+      - type: "bind"
+        source: "./alembic.ini"
+        target: "/code/app/alembic.ini"
+        read_only: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    entrypoint: ["alembic", "upgrade", "head"]
 
   telegram-bot-api:
+    profiles:
+      - botapi
     image: aiogram/telegram-bot-api:latest
     environment:
       TELEGRAM_API_ID: "6"
@@ -30,6 +50,8 @@ services:
       - botapi
 
   nginx:
+    profiles:
+      - botapi
     image: nginx:latest
     volumes:
       - telegram-bot-api-data:/usr/share/nginx/html/var/lib/telegram-bot-api:ro
