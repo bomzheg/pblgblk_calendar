@@ -64,6 +64,7 @@ volumes:
   telegram-bot-api-data:
 
 networks:
+  botapi:
   reverse-proxy:
     external:
       name: nginx-reverse-proxy
