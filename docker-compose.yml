@@ -10,7 +10,6 @@ services:
       - type: "bind"
         source: "./config"
         target: "/code/app/config"
-    env_file: config/.env
     entrypoint: [ "python3", "-m", "app.tgbot"]
     networks:
       - reverse-proxy
