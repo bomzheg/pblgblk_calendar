@@ -27,9 +27,10 @@ async def handle(error: ErrorEvent, log_chat_id: int, bot: Bot) -> None:
         f"{hd.quote(json.dumps(error.update.dict(exclude_none=True), default=str)[:3500])}\n",
     )
 
-async def clear_unknown_intent(error: ErrorEvent, bot: Bot):
-    assert error.update.callback_query
-    assert error.update.callback_query.message
+
+async def clear_unknown_intent(error: ErrorEvent, bot: Bot) -> None:
+    assert error.update.callback_query  # noqa: S101
+    assert error.update.callback_query.message  # noqa: S101
     await bot.edit_message_reply_markup(
         chat_id=error.update.callback_query.message.chat.id,
         message_id=error.update.callback_query.message.message_id,
