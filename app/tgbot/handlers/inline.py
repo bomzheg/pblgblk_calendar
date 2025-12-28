@@ -20,7 +20,6 @@ from app.models.config.main import BotConfig
 @inject
 async def send_calendar_inline(
     inline_query: InlineQuery,
-    bot: Bot,
     identity: FromDishka[IdentityProvider],
     nursery: FromDishka[RequestNursery],
 ) -> None:
@@ -65,6 +64,7 @@ async def send_calendar_inline(
     )
     for msg in sent:
         nursery(delete_message, msg=msg)
+
 
 @inject_task
 async def delete_message(msg: Message, bot: FromDishka[Bot]) -> bool:
