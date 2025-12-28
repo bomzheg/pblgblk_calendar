@@ -23,6 +23,12 @@ class DateRange:
     start: date
     end: date
 
+    def previous_month(self) -> "DateRange":
+        return self.create_month(self.start - datetime.timedelta(days=1))
+
+    def next_month(self) -> "DateRange":
+        return self.create_month(self.end + datetime.timedelta(days=1))
+
     def __repr__(self) -> str:
         return f"{self.start.isoformat()}-{self.end.isoformat()}"
 
