@@ -20,4 +20,9 @@ handlers:
 root:
   level: DEBUG
   handlers: [console]
+loggers:
+  matplotlib:
+    level: INFO
+  PIL:
+    level: INFO
 disable_existing_loggers: false
