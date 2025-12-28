@@ -26,5 +26,5 @@ alembic upgrade head
 ```
 * ... and run
 ```bash
-python -m app
+python -m app.tgbot
 ```
