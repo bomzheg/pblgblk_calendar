@@ -44,4 +44,3 @@ class DateRange:
     def create_this_month(cls) -> "DateRange":
         today = datetime.datetime.now(tz=datetime.UTC).date()
         return cls.create_month(today)
-

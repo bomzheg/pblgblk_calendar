@@ -4,7 +4,8 @@ from aiogram import Dispatcher
 
 from app.models.config.main import Config
 from app.tgbot import dialogs
-from . import inline, base, errors, superuser
+
+from . import base, errors, inline, superuser
 
 logger = logging.getLogger(__name__)
 

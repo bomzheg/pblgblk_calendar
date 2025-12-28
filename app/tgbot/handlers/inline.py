@@ -1,12 +1,14 @@
 import asyncio
-import datetime
 from functools import partial
 
-from aiogram import Router, Bot
+from aiogram import Bot, Router
 from aiogram.enums import InlineQueryResultType
-from aiogram.handlers import InlineQueryHandler
-from aiogram.types import InlineQuery, InlineQueryResultArticle, InputMessageContent, InlineQueryResultPhoto, \
-    BufferedInputFile, InlineQueryResultCachedPhoto, Message
+from aiogram.types import (
+    BufferedInputFile,
+    InlineQuery,
+    InlineQueryResultCachedPhoto,
+    Message,
+)
 from dishka import FromDishka
 from dishka.integrations.aiogram import inject
 
@@ -24,8 +26,7 @@ async def send_calendar_inline(
     interactor: FromDishka[CalendarPainterInteractor],
     identity: FromDishka[IdentityProvider],
     config: FromDishka[BotConfig],
-
-):
+) -> None:
     this_month = DateRange.create_this_month()
     previous_month = this_month.previous_month()
     next_month = this_month.next_month()
@@ -43,39 +44,41 @@ async def send_calendar_inline(
             group.create_task(generator(date_range=this_month)),
             group.create_task(generator(date_range=next_month)),
         ]
-        sent = []
-        for task in tasks:
-            sent.append(await task)
-    result = [
-        InlineQueryResultCachedPhoto(
-            type=InlineQueryResultType.PHOTO,
-            id=repr(previous_month),
-            photo_file_id=sent[0].photo[-1].file_id,
-            title="Мой календарь",
-            description="Предыдущий месяц",
-        ),
-        InlineQueryResultCachedPhoto(
-            type=InlineQueryResultType.PHOTO,
-            id=repr(this_month),
-            photo_file_id=sent[1].photo[-1].file_id,
-            title="Мой календарь",
-            description="Этот месяц",
-        ),
-        InlineQueryResultCachedPhoto(
-            type=InlineQueryResultType.PHOTO,
-            id=repr(next_month),
-            photo_file_id=sent[2].photo[-1].file_id,
-            title="Мой календарь",
-            description="Следующий месяц",
-        ),
-    ]
-    await inline_query.answer(
-        results=result,  # type: ignore[arg-type]
-        is_personal=True,
-        cache_time=30,
-    )
-    for msg in sent:
-        await msg.delete()
+        sent = [await task for task in tasks]
+        result = [
+            InlineQueryResultCachedPhoto(
+                type=InlineQueryResultType.PHOTO,
+                id=repr(previous_month),
+                photo_file_id=sent[0].photo[-1].file_id,  # type: ignore[index]
+                title="Мой календарь",
+                description="Предыдущий месяц",
+            ),
+            InlineQueryResultCachedPhoto(
+                type=InlineQueryResultType.PHOTO,
+                id=repr(this_month),
+                photo_file_id=sent[1].photo[-1].file_id,  # type: ignore[index]
+                title="Мой календарь",
+                description="Этот месяц",
+            ),
+            InlineQueryResultCachedPhoto(
+                type=InlineQueryResultType.PHOTO,
+                id=repr(next_month),
+                photo_file_id=sent[2].photo[-1].file_id,  # type: ignore[index]
+                title="Мой календарь",
+                description="Следующий месяц",
+            ),
+        ]
+        await inline_query.answer(
+            results=result,  # type: ignore[arg-type]
+            is_personal=True,
+            cache_time=30,
+        )
+        delete_tasks = [
+            group.create_task(bot.delete_message(chat_id=msg.chat.id, message_id=msg.message_id))
+            for msg in sent
+        ]
+        for task in delete_tasks:
+            await task
 
 
 async def generate_and_send(
@@ -83,7 +86,7 @@ async def generate_and_send(
     interactor: CalendarPainterInteractor,
     user_db_id: users.UserId,
     bot: Bot,
-    config: BotConfig
+    config: BotConfig,
 ) -> Message:
     data_cal = await interactor(date_range=date_range, user_id=user_db_id)
     return await bot.send_photo(
@@ -91,6 +94,7 @@ async def generate_and_send(
         photo=BufferedInputFile(file=data_cal.read(), filename="calendar.png"),
         disable_notification=True,
     )
+
 
 def setup() -> Router:
     router = Router(name=__name__)
