@@ -4,6 +4,7 @@ from typing import Any
 from aiogram.types import BufferedInputFile, CallbackQuery
 from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.common import ManagedWidget
+from aiogram_dialog.widgets.kbd import ManagedCalendar
 from dishka import FromDishka
 from dishka.integrations.aiogram_dialog import inject
 
@@ -49,3 +50,12 @@ async def paint_cal(
     await callback_query.message.answer_photo(
         photo=BufferedInputFile(file=cal.read(), filename="calendar.png")
     )
+
+
+async def calendar_on_click_nothing(
+    callback_query: CallbackQuery,
+    __: ManagedCalendar,
+    ___: DialogManager,
+    ____: datetime.date,
+) -> None:
+    await callback_query.answer("Вы находитесь в режиме просмотра, нажатия здесь ничего не делают")

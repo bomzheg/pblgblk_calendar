@@ -6,7 +6,7 @@ from app.tgbot import states
 from app.tgbot.dialogs.widgets import BusyCalendar
 
 from .getters import get_busy_days, get_users
-from .handlers import on_start_view, paint_cal, select_user
+from .handlers import calendar_on_click_nothing, on_start_view, paint_cal, select_user
 
 view_calendar = Dialog(
     Window(
@@ -28,7 +28,10 @@ view_calendar = Dialog(
     ),
     Window(
         Jinja("Календарь ниже"),
-        BusyCalendar(id="view_calendar"),
+        BusyCalendar(
+            id="view_calendar",
+            on_click=calendar_on_click_nothing,  # type: ignore[arg-type]
+        ),
         Button(
             Jinja("Получить картинкой"),
             id="paint_it",
